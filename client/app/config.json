@@ -1,0 +1,14 @@
+{
+    "logging":{
+        "level":"debug",
+        "output_to_console":true
+    },
+    "server":{
+        "address": "LIVE",
+        "port": 1337
+    },
+    "temporary_files":{
+        "default": true,
+        "directory": "D:\\tmp"
+    }
+}

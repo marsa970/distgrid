@@ -1,0 +1,13 @@
+{
+    "logging":{
+        "level":"log",
+        "output_to_console":true
+    },
+    "api":{
+        "port":8080
+    },
+    "distgrid":{
+        "port":1337,
+        "max_preload_per_client": 1
+    }
+}

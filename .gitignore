@@ -1,0 +1,3 @@
+*.distlog
+*.jshintrc
+generated.json

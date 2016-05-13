@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <script>
+
+        var displayData = function(json_data){
+            var queue = json_data.queue;
+            var body = document.body;
+            body.innerHTML = "";
+            var sortTasks = function(a,b){
+                if( a.completed_tasks == b.completed_tasks ){
+                    return a.id - b.id;
+                } else {
+                    return b.completed_tasks - a.completed_tasks;
+                }
+            }
+            queue.sort(sortTasks);
+            var table = document.createElement("table");
+            for(var i = 0; i < queue.length; i++){
+                var row = document.createElement("tr");
+                var id = document.createElement("td");
+                id.innerHTML = queue[i].id;
+                var command = document.createElement("td");
+                command.innerHTML = queue[i].command;
+                var progressbar = document.createElement("progress");
+                progressbar.setAttribute("max", queue[i].total_tasks);
+                progressbar.setAttribute("value", queue[i].completed_tasks);
+                var progress_cell = document.createElement("td");
+                progress_cell.appendChild(progressbar);
+                var completed_tasks = document.createElement("td");
+                completed_tasks.innerHTML = queue[i].completed_tasks;
+                var total_tasks = document.createElement("td");
+                total_tasks.innerHTML = queue[i].total_tasks;
+
+                row.appendChild(id);
+                row.appendChild(progress_cell);
+                row.appendChild(total_tasks);
+                row.appendChild(completed_tasks);
+                row.appendChild(command);
+                table.appendChild(row);
+            }
+            body.appendChild(table);
+        };
+
+        var getData = function(){
+            var req = new XMLHttpRequest();
+            req.onreadystatechange = function(){
+                if(req.readyState == 4 && req.status == 200){
+                    displayData(JSON.parse(req.responseText))
+                }
+            }
+            req.ontimeout = function(){
+                document.body.innerHTML = "ERROR: Connection timeout";
+            }
+            req.open("GET", "http://192.168.1.4:8000/jobQueue", true);
+            req.send(null);
+        };
+
+        getData();
+        setInterval(getData, 5000);
+
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
